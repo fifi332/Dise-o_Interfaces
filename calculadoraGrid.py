@@ -26,10 +26,10 @@ class FiestraPrincipal(QMainWindow):
 
         maia = QGridLayout()
 
-        self.etiqueta = QLabel("")
+        self.etiqueta = QLabel("0")
         self.etiqueta.setMaximumSize(600, 200)
 
-        self.num1 = ""
+        self.num1 = "0"
         self.operador = ""
         self.num2 = ""
 
@@ -142,8 +142,13 @@ class FiestraPrincipal(QMainWindow):
         num = boton.text()
 
         if self.operador == "":
-            self.num1 = self.num1 + num
+            if self.num1 == "0":
+                self.num1 = num
+            else:
+                self.num1 = self.num1 + num
+
             self.etiqueta.setText(self.num1)
+
         else:
             self.num2 = self.num2 + num
             self.etiqueta.setText(self.num2)
@@ -151,6 +156,7 @@ class FiestraPrincipal(QMainWindow):
         print("Numero 1:", self.num1)
         print("Operador:", self.operador)
         print("Numero 2:", self.num2)
+        print()
 
     def operadorPulsado(self):
         boton = self.sender()
@@ -161,6 +167,7 @@ class FiestraPrincipal(QMainWindow):
         print("Numero 1:", self.num1)
         print("Operador:", self.operador)
         print("Numero 2:", self.num2)
+        print()
 
     def igualPulsado(self):
         if self.operador == "+":
@@ -176,11 +183,12 @@ class FiestraPrincipal(QMainWindow):
             self.num1 = str(float(self.num1) / float(self.num2))
             self.etiqueta.setText(self.num1)
         self.num2 = ""
+        self.operador = ""
 
     def ac(self):
-        self.etiqueta.setText("")
+        self.etiqueta.setText("0")
         self.operador = ""
-        self.num1 = ""
+        self.num1 = "0"
         self.num2 = ""
 
     def mathPi(self):
