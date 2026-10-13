@@ -32,6 +32,8 @@ class FiestraPrincipal(QMainWindow):
         self.nums = []
         self.operador = []
 
+        self.raizPendiente = False
+
         botonDelet = QPushButton("⌫")
         botonParentesis1 = QPushButton("(")
         botonParentesis2 = QPushButton(")")
@@ -106,7 +108,12 @@ class FiestraPrincipal(QMainWindow):
         boton8.clicked.connect(self.numeroPulsado)
         boton9.clicked.connect(self.numeroPulsado)
 
+        botonPunto.clicked.connect(self.numeroPulsado)
+
         botonPi.clicked.connect(self.mathPi)
+
+        botonRaiz.clicked.connect(self.operadorPulsado)
+        botonElevado.clicked.connect(self.operadorPulsado)
 
         botonMas.clicked.connect(self.operadorPulsado)
         botonMenos.clicked.connect(self.operadorPulsado)
@@ -140,11 +147,21 @@ class FiestraPrincipal(QMainWindow):
         boton = self.sender()
         num = boton.text()
 
-        if len(self.operador) == len(self.nums):
-            self.nums.append(num)
-        elif len(self.operador) == len(self.nums)-1:
+        if self.raizPendiente:
+            num = str(math.sqrt(float(num)))
+            self.raizPendiente = False
 
-            self.nums[len(self.nums)-1] = self.nums[len(self.nums)-1] + num
+            if len(self.operador) == len(self.nums):
+                self.nums.append(num)
+            else:
+                self.nums[len(self.nums) - 1] += num
+
+        elif len(self.operador) == len(self.nums):
+            self.nums.append(num)
+
+        else:
+
+            self.nums[len(self.nums)-1] += num
 
         print("Numeros: ", self.nums)
         print("Operadores: ", self.operador)
@@ -156,22 +173,43 @@ class FiestraPrincipal(QMainWindow):
         boton = self.sender()
         operador = boton.text()
 
-        self.operador.append(operador)
+        if operador == "√":
+            self.raizPendiente = True
+            self.etiqueta.setText(self.etiqueta.text() + "√")
 
-        print("Numeros :", self.nums)
-        print("Operadores :", self.operador)
+        else:
+            self.operador.append(operador)
+            self.etiqueta.setText(self.etiqueta.text() + operador)
+
+        print("Numeros:", self.nums)
+        print("Operadores:", self.operador)
         print()
-
-        self.etiqueta.setText(self.etiqueta.text() + boton.text())
 
 
 
     def igualPulsado(self):
 
+        ele = self.operador.count("x²")
+
         por = self.operador.count("×")
-        div =self.operador.count("÷")
+        div = self.operador.count("÷")
         mas = self.operador.count("+")
         men = self.operador.count("-")
+
+        while ele > 0:
+            posicion = self.operador.index("x²")
+
+            self.nums[posicion] = str(
+                float(self.nums[posicion]) ** float(self.nums[posicion + 1])
+            )
+
+            self.nums.pop(posicion + 1)
+            self.operador.pop(posicion)
+
+            ele -= 1
+
+            print("Numeros :", self.nums)
+            print("Operadores:", self.operador)
 
         while por > 0:
             posicion = self.operador.index("×")
@@ -241,6 +279,7 @@ class FiestraPrincipal(QMainWindow):
         self.etiqueta.setText("")
         self.operador = []
         self.nums = []
+        self.raizPendiente = False
 
     def mathPi(self):
 
