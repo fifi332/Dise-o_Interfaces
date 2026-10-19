@@ -46,7 +46,6 @@ class FiestraPrincipal(QMainWindow):
         layoutRadio.addWidget(rbtPrimeiro)
         layoutRadio.addWidget(rbtSegundo)
         maiaAlumno.addLayout(layoutRadio, 1, 0, 1, 2)
-
         maiaAlumno.addWidget(cmbAnoMatricula, 2, 0, 1, 2)
         maiaAlumno.addWidget(lblNomeNai, 3, 0)
         maiaAlumno.addWidget(txtNomeNai, 3, 1)
