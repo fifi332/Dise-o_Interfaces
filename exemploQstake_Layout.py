@@ -1,7 +1,6 @@
-import math
+
 import sys
 
-from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import (QMainWindow, QApplication, QVBoxLayout, QPushButton, QWidget, QLabel, QLineEdit,
                              QHBoxLayout, QGridLayout, QComboBox, QStackedLayout, QRadioButton)
 
@@ -10,13 +9,12 @@ class FiestraPrincipal(QMainWindow):
     def __init__(self):
         super().__init__()
 
-        self.setWindowTitle("Exemplo QstakedLayout")
+        self.setWindowTitle("Exemplo QStackedLayout")
 
         caixaV = QVBoxLayout()
 
         self.cmbTipo = QComboBox()
-        self.cmbTipo.addItem("Alumno")
-        self.cmbTipo.addItems(["Profesores", "Pas"])
+        self.cmbTipo.addItems(["Alumno", "Profesores", "Pas"])
         self.cmbTipo.setCurrentIndex(-1)
         self.cmbTipo.currentIndexChanged.connect(self.on_cmbTipo_currentIndexChanged)
 
@@ -25,15 +23,21 @@ class FiestraPrincipal(QMainWindow):
         self.tarxetas = QStackedLayout()
 
         maiaAlumno = QGridLayout()
+
         lblCiclo = QLabel("Ciclo")
         cmbCiclo = QComboBox()
-        ciclos = ("DAM", "Asir", "SMR", "IEA", "ADF")
+        ciclos = ("DAM", "ASIR", "SMR", "IEA", "ADF")
         cmbCiclo.addItems(ciclos)
         cmbCiclo.setCurrentIndex(-1)
+
         rbtPrimeiro = QRadioButton("Primeiro")
-        rbtSegundo = QRadioButton("Segundo",rbtPrimeiro)
+        rbtSegundo = QRadioButton("Segundo")
+
         cmbAnoMatricula = QComboBox()
-        cursosMatricula = ("25/26","26/27","27/28")
+        cursosMatricula = ("25/26", "26/27", "27/28")
+        cmbAnoMatricula.addItems(cursosMatricula)
+        cmbAnoMatricula.setCurrentIndex(-1)
+
         lblNomeNai = QLabel("Nome Nai")
         txtNomeNai = QLineEdit()
         lblNomePai = QLabel("Nome Pai")
@@ -46,11 +50,12 @@ class FiestraPrincipal(QMainWindow):
         layoutRadio.addWidget(rbtPrimeiro)
         layoutRadio.addWidget(rbtSegundo)
         maiaAlumno.addLayout(layoutRadio, 1, 0, 1, 2)
+
         maiaAlumno.addWidget(cmbAnoMatricula, 2, 0, 1, 2)
         maiaAlumno.addWidget(lblNomeNai, 3, 0)
         maiaAlumno.addWidget(txtNomeNai, 3, 1)
-        maiaAlumno.addWidget(lblNomePai, 3, 0, 1, 1)
-        maiaAlumno.addWidget(txtNomePai, 3, 1, 1, 3)
+        maiaAlumno.addWidget(lblNomePai, 4, 0)
+        maiaAlumno.addWidget(txtNomePai, 4, 1)
 
         widgetAlumno = QWidget()
         widgetAlumno.setLayout(maiaAlumno)
@@ -63,10 +68,12 @@ class FiestraPrincipal(QMainWindow):
         self.setCentralWidget(contedor)
 
     def on_cmbTipo_currentIndexChanged(self, index):
-        self.tarxetas.setCurrentIndex(index)
+        if index >= 0 and index < self.tarxetas.count():
+            self.tarxetas.setCurrentIndex(index)
 
-    if __name__ == "__main__":
-        app = QApplication(sys.argv)
-        fiestra = FiestraPrincipal()
-        fiestra.show()
-        sys.exit(app.exec())
+
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    fiestra = FiestraPrincipal()
+    fiestra.show()
+    sys.exit(app.exec())
