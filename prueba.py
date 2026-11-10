@@ -1,5 +1,6 @@
 #ollama run qwen2.5-coder:3b
 
+
 import sys
 from PyQt6.QtWidgets import (QApplication,QCheckBox,QComboBox,QFormLayout,QGridLayout,QLabel,QLineEdit,QMainWindow,QRadioButton,QStackedLayout,QTimeEdit,QVBoxLayout,QWidget,)
 
